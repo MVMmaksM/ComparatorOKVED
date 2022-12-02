@@ -28,12 +28,13 @@ namespace Comparator.OKVED.Comparator
 
             return delChistSubStringHoz.Select(a => new ModelResultHozChist()
             {
+                Period = a.Period,
                 OKPO = a.OKPO,
                 Name = a.Name,
                 OKATO = a.OKATO,
                 OKVEDHoz = a.OKVEDHoz,
                 OKVEDChist = a.OKVEDChist
-            });
+            }) ;
         }
 
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
