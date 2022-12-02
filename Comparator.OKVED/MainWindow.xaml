@@ -1,0 +1,50 @@
+﻿<Window x:Class="Comparator.OKVED.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Comparator.OKVED"
+        mc:Ignorable="d"
+       Title="ComparatorOKVED" Height="400" Width="500" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="290" ShadowDepth="3" Opacity="0.6"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid UseLayoutRounding="True" Loaded="Grid_Loaded">
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem Header="Логи" Height="25">
+                <MenuItem Header="Папку log" Click="MenuItemOpenLogDirectory_Click" />
+                <MenuItem Header="Текущий log-файл" Click="MenuItemOpenLogFile_Click" />
+            </MenuItem>
+        </Menu>
+        <Button Content="Загрузить данные" HorizontalAlignment="Left" Margin="51,99,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcel_Click"/>
+        <Button Content="Сравнить" HorizontalAlignment="Left" Margin="51,163,0,0" VerticalAlignment="Top" Width="190" Click="BtnComapare_Click" Height="25">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="2"/>
+                </Style>
+            </Button.Resources>
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="290" ShadowDepth="3" Opacity="0.6"/>
+            </Button.Effect>
+        </Button>
+        <Label x:Name="LblLoad" Content="" HorizontalAlignment="Left" Margin="246,99,0,0" VerticalAlignment="Top" Width="190"/>
+        <StatusBar HorizontalAlignment="Left" Width="494" Height="23" VerticalAlignment="Bottom"/>
+        <Label x:Name="LblCompare" Content="" HorizontalAlignment="Left" Margin="51,211,0,0" VerticalAlignment="Top" Width="190" Height="132"/>
+        <GroupBox Header="Сортировать по:" Margin="277,163,10,28">
+            <StackPanel>
+                <RadioButton x:Name="rdOkpo" Content="ОКПО" Margin="10,10,10,0" Checked="RadioButton_Checked"/>
+                <RadioButton x:Name="rdName" Content="Наименованию предприятия" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
+                <RadioButton x:Name="rdOkato" Content="ОКАТО" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
+                <RadioButton x:Name="rdOkvedHoz" Content="Хозяйственному ОКВЭД" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
+                <RadioButton x:Name="rdOkvedChist" Content="Чистому ОКВЭД" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
+
