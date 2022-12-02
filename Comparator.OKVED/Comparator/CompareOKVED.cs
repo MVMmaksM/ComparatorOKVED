@@ -37,7 +37,13 @@ namespace Comparator.OKVED.Comparator
             });
         }
 
+        public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> collectionPBD) 
+        {
+            var delAGOkved = DelOkvedAG(collectionPBD);
+            var periodMes = delAGOkved.Where(a => a.Period == "Нет");
 
+            return null;
+        }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
         private PropertyInfo GetPropertyInfoRadioButton(object radioButtonOrderBy)
