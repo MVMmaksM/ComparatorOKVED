@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="Comparator\CompareOKVED.cs" />
     <Compile Include="Model\ModelResult.cs" />
+    <Compile Include="Model\ModelResultChist.cs" />
     <Compile Include="Model\ModelResultHozChist.cs" />
     <Compile Include="Services\FileServices.cs" />
     <Page Include="MainWindow.xaml">

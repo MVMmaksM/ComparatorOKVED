@@ -34,11 +34,12 @@ namespace Comparator.OKVED.Comparator
                 OKATO = a.OKATO,
                 OKVEDHoz = a.OKVEDHoz,
                 OKVEDChist = a.OKVEDChist
-            }) ;
+            });
         }
 
+
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
-        private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ"); 
+        private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
         private PropertyInfo GetPropertyInfoRadioButton(object radioButtonOrderBy)
         {
             string paramName = string.Empty;
