@@ -39,7 +39,7 @@ namespace Comparator.OKVED
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     LblLoad.Content = "Загрузка...";
-                    await Task.Run(() => _dataLoadPBD = FileServices.ReadExcel(openFileDialog.FileName));
+                    await Task.Run(() => _dataLoadPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
                     LblLoad.Content = $"Загружено: {_dataLoadPBD?.Count() ?? 0} записей";
                 }
             }

@@ -17,9 +17,9 @@ namespace Comparator.OKVED.Model
         public string OKVEDChist { get; set; }
         public double? OtchMes { get; set; }
         public double? PredMes { get; set; }
-        public double? SovMesPrGod { get; set; }
+        public double? SovMesPredGod { get; set; }
         public double? OtchKvart { get; set; }
         public double? PredKvart { get; set; }
-        public double? SovKvartPrGod { get; set; }
+        public double? SovKvartPredGod { get; set; }
     }
 }

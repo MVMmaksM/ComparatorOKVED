@@ -12,6 +12,17 @@ namespace Comparator.OKVED.Services
 {
     class FileServices
     {
+        private static double? ValidationNullDataColumn(object value)
+        {
+            if (value != null)
+            {
+                return (double)value;
+            }
+            else
+            {
+                return null;
+            }
+        }
         private static int GetNumberColumn(ExcelWorksheet worksheet, string nameColumn)
         {
 
@@ -26,56 +37,41 @@ namespace Comparator.OKVED.Services
             return default(int);
         }
 
-        public static IEnumerable<ModelPBD> ReadExcel(string pathFile)
+        public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
         {
             ExcelPackage package = new ExcelPackage(pathFile);
             ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
             List<ModelPBD> listDataPBD = new List<ModelPBD>();
 
+            int numColPeriod = GetNumberColumn(worksheet, "До 15 человек");
             int numColOKATO = GetNumberColumn(worksheet, "ОКАТО");
             int numColOKPO = GetNumberColumn(worksheet, "ОКПО");
             int numColName = GetNumberColumn(worksheet, "Наименование предприятия");
+            int numColKodPokaz = GetNumberColumn(worksheet, "Код показателя");
             int numColOKVEDHoz = GetNumberColumn(worksheet, "ОКВЭД Хозяйственный");
             int numColOKVEDChist = GetNumberColumn(worksheet, "ОКВЭД Чистый");
             int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");
-            int numColPerNachGod = GetNumberColumn(worksheet, "За период с начала отчетного года");
+            int numColPredMes = GetNumberColumn(worksheet, "За предыдущий месяц");
+            //int numColSovMesPredGod = GetNumberColumn(worksheet, "");
             int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
+            int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
+            //int numColSovKvartPredGod = GetNumberColumn(worksheet, "");
 
             for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
             {
                 ModelPBD newRow = new ModelPBD();
+                newRow.Period = worksheet.Cells[i, numColPeriod].Value.ToString();
                 newRow.OKATO = worksheet.Cells[i, numColOKATO].Value.ToString();
                 newRow.OKPO = worksheet.Cells[i, numColOKPO].Value.ToString();
                 newRow.Name = worksheet.Cells[i, numColName].Value.ToString();
+                newRow.KodPokaz = worksheet.Cells[i, numColKodPokaz].Value.ToString();
                 newRow.OKVEDHoz = worksheet.Cells[i, numColOKVEDHoz].Value.ToString();
                 newRow.OKVEDChist = worksheet.Cells[i, numColOKVEDChist].Value.ToString();
 
-                if (worksheet.Cells[i, numColOtchMes].Value != null)
-                {
-                    newRow.OtchMes= (double)worksheet.Cells[i, numColOtchMes].Value;
-                }
-                else
-                {
-                    newRow.PerNachOtchGod = null;
-                }
-
-                if (worksheet.Cells[i, numColPerNachGod].Value != null)
-                {
-                    newRow.PerNachOtchGod = (double)worksheet.Cells[i, numColPerNachGod].Value;
-                }
-                else
-                {
-                    newRow.PerNachOtchGod = null;
-                }
-
-                if (worksheet.Cells[i, numColOtchKvart].Value != null)
-                {
-                    newRow.OtchKvart = (double)worksheet.Cells[i, numColOtchKvart].Value;
-                }
-                else
-                {
-                    newRow.OtchKvart = null;
-                }
+                newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, numColOtchMes].Value);
+                newRow.PredMes = ValidationNullDataColumn(worksheet.Cells[i, numColPredMes].Value);
+                newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);
+                newRow.PredKvart = ValidationNullDataColumn(worksheet.Cells[i, numColPredKvart].Value);              
 
                 listDataPBD.Add(newRow);
             }
@@ -88,7 +84,7 @@ namespace Comparator.OKVED.Services
 
             var package = new ExcelPackage();
             var sheetResultCompareOKVED = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
-           
+
             int rowsCountListCompareOKVED = collectionResult.Count() + 1;
 
             sheetResultCompareOKVED.Cells["A1"].Value = "ОКПО";
