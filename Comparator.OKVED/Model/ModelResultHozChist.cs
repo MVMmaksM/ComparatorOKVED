@@ -8,6 +8,7 @@ namespace Comparator.OKVED.Model
 {
     class ModelResultHozChist
     {
+        public string Period { get; set; }
         public string OKPO { get; set; }
         public string Name { get; set; }
         public string OKATO { get; set; }
