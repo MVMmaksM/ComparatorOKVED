@@ -15,12 +15,10 @@ namespace Comparator.OKVED.Comparator
     {
         public IEnumerable<ModelResultHozChist> CompareChistHozOkved(IEnumerable<ModelPBD> collectionPBD)
         {
+            var delokvedAG = DelOkvedAG(collectionPBD).GroupBy(a => new { a.OKPO, a.OKVEDHoz, a.OKVEDChist }).Select(a => a.First());
+            var hozEqualsChist = GetRowsOkvedHozEqualsChist(delokvedAG);
 
-
-            var delAGokved = collectionPBD.Where(a => a.OKVEDChist != "101.АГ").GroupBy(a => new { a.OKPO, a.OKVEDHoz, a.OKVEDChist }).Select(a => a.First());
-            var hozEqualsChist = delAGokved.Where(a => a.OKVEDHoz == a.OKVEDChist);
-
-            var delHozSubStringChist = delAGokved.Where(a => !a.OKVEDChist.Contains(a.OKVEDHoz));
+            var delHozSubStringChist = delokvedAG.Where(a => !a.OKVEDChist.Contains(a.OKVEDHoz));
             var delChistSubStringHoz = delHozSubStringChist.Where(a => !a.OKVEDHoz.Contains(a.OKVEDChist)).ToList();
 
             foreach (var row in hozEqualsChist)
@@ -38,6 +36,8 @@ namespace Comparator.OKVED.Comparator
             });
         }
 
+        private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
+        private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ"); 
         private PropertyInfo GetPropertyInfoRadioButton(object radioButtonOrderBy)
         {
             string paramName = string.Empty;
