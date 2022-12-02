@@ -36,8 +36,6 @@ namespace Comparator.OKVED.Services
 
             return default(int);
         }
-
-
         public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
         {
             int a = 0;
@@ -60,9 +58,7 @@ namespace Comparator.OKVED.Services
                 //int numColSovMesPredGod = GetNumberColumn(worksheet, "");
                 int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
                 int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
-                //int numColSovKvartPredGod = GetNumberColumn(worksheet, "");
-
-               
+                //int numColSovKvartPredGod = GetNumberColumn(worksheet, "");               
 
                 for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
@@ -93,10 +89,8 @@ namespace Comparator.OKVED.Services
                 return null;
             }
         }
-
         public static byte[] CreateExcelResultHozChist(IEnumerable<ModelResultHozChist> collectionResult)
         {
-
             var package = new ExcelPackage();
             var sheetResultCompareOKVED = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
 
