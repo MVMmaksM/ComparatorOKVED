@@ -111,7 +111,7 @@ namespace Comparator.OKVED.Services
                 return null;
             }
         }
-        public static byte[] CreateExcelResultHozChist(IEnumerable<ModelResultHozChist> resultHozCompareChist, IEnumerable<ModelResultChist> resultOtchComparePredChist)
+        public static byte[] CreateExcelResultCompare(IEnumerable<ModelResultHozChist> resultHozCompareChist, IEnumerable<ModelResultChist> resultOtchComparePredChist)
         {
             var package = new ExcelPackage();
             var sheetResultHozCompareChist = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
@@ -142,7 +142,6 @@ namespace Comparator.OKVED.Services
 
             return package.GetAsByteArray();
         }
-
         public static void SaveFile(byte[] dataSave, string pathSave)
         {
             File.WriteAllBytes(pathSave, dataSave);
