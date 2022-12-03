@@ -60,7 +60,7 @@ namespace Comparator.OKVED
             {
                 LblCompare.Content = "Выполнение...";
 
-                await Task.Run(() => fileResult = FileServices.CreateExcelResultHozChist(comparer.CompareChistHozOkved(_dataLoadPBD)));
+                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataLoadPBD), comparer.CompareChistOkved(_dataLoadPBD)));
 
                 LblCompare.Content = "Выполнено!";
 
