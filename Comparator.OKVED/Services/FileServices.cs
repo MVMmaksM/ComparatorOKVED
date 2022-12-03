@@ -128,8 +128,8 @@ namespace Comparator.OKVED.Services
             sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
             sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
             sheetResultOtchComparePredChist.Cells["E1"].Value = "Код показателя";
-            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД текущий период";
-            sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущий период";
+            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД отчетного месяца";
+            sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущего меясца";
             
             SetPropertyColumnExcel(sheetResultHozCompareChist, countRowsResHozCompChist, typeof(ModelResultHozChist).GetProperties().Length);
             SetPropertyColumnExcel(sheetResultOtchComparePredChist, countRowsResOtchCompPredChist, typeof(ModelResultChist).GetProperties().Length);
