@@ -41,8 +41,13 @@ namespace Comparator.OKVED.Comparator
         {
             var delAGOkved = DelOkvedAG(collectionPBD);
             var periodMes = delAGOkved.Where(a => a.Period == "Нет");
+            var otchMesNotNull = periodMes.Where(a => a.OtchMes != null);
+            var predMesNotNull = periodMes.Where(a => a.PredMes != null);
+            var result = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
+                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist })
+                .Where(a => a.ChistOkvedOtchMes != a.ChistOKVEDPredMes);
 
-            return null;
+            return result;
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
