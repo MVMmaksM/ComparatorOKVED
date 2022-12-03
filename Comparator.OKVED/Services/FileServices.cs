@@ -36,6 +36,28 @@ namespace Comparator.OKVED.Services
 
             return default(int);
         }
+        private static void SetPropertyColumnExcel(ExcelWorksheet excelWorksheet, int countRows)
+        {
+            excelWorksheet.View.FreezePanes(2, 1);
+            excelWorksheet.Cells[1, 1, 1, 6].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            excelWorksheet.Cells[1, 1, 1, 6].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(217, 217, 217));
+            excelWorksheet.Columns[1].Width = 20;
+            excelWorksheet.Columns[2].Width = 32;
+            excelWorksheet.Columns[3].Width = 32;
+            excelWorksheet.Columns[4].Width = 32;
+            excelWorksheet.Columns[5].Width = 32;
+            excelWorksheet.Columns[6].Width = 32;
+            excelWorksheet.Columns[1, 6].Style.Font.Name = "Arial";
+            excelWorksheet.Columns[1, 6].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            excelWorksheet.Columns[1, 6].Style.Font.Size = 10;
+            excelWorksheet.Cells[1, 1, 1, 6].Style.Font.Bold = true;
+            excelWorksheet.Cells[1, 1, 1, 6].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            excelWorksheet.Rows[1].Height = 30;
+            excelWorksheet.Cells[1, 1, countRows, 6].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+            excelWorksheet.Cells[1, 1, countRows, 6].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+            excelWorksheet.Cells[1, 1, countRows, 6].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+            excelWorksheet.Cells[1, 1, countRows, 6].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+        }
         public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
         {
             int a = 0;
@@ -89,41 +111,34 @@ namespace Comparator.OKVED.Services
                 return null;
             }
         }
-        public static byte[] CreateExcelResultHozChist(IEnumerable<ModelResultHozChist> collectionResult)
+        public static byte[] CreateExcelResultHozChist(IEnumerable<ModelResultHozChist> resultHozCompareChist, IEnumerable<ModelResultChist> resultOtchComparePredChist)
         {
             var package = new ExcelPackage();
-            var sheetResultCompareOKVED = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
+            var sheetResultHozCompareChist = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
+            var sheetResultOtchComparePredChist = package.Workbook.Worksheets.Add("Сравнение чистого ОКВЭД");
 
-            int rowsCountListCompareOKVED = collectionResult.Count() + 1;
+            int countRowsResHozCompChist = resultHozCompareChist.Count() + 1;
+            int countRowsResOtchCompPredChist = resultOtchComparePredChist.Count() + 1;
 
-            sheetResultCompareOKVED.Cells["A1"].Value = "До 15 человек";
-            sheetResultCompareOKVED.Cells["B1"].Value = "ОКПО";
-            sheetResultCompareOKVED.Cells["C1"].Value = "Наименование предприятия";
-            sheetResultCompareOKVED.Cells["D1"].Value = "ОКАТО";
-            sheetResultCompareOKVED.Cells["E1"].Value = "ОКВЭД хозяйственный";
-            sheetResultCompareOKVED.Cells["F1"].Value = "ОКВЭД чистый";
+            sheetResultHozCompareChist.Cells["A1"].Value = "До 15 человек";
+            sheetResultHozCompareChist.Cells["B1"].Value = "ОКПО";
+            sheetResultHozCompareChist.Cells["C1"].Value = "Наименование предприятия";
+            sheetResultHozCompareChist.Cells["D1"].Value = "ОКАТО";
+            sheetResultHozCompareChist.Cells["E1"].Value = "ОКВЭД хозяйственный";
+            sheetResultHozCompareChist.Cells["F1"].Value = "ОКВЭД чистый";
 
-            sheetResultCompareOKVED.Cells[2, 1].LoadFromCollection<ModelResultHozChist>(collectionResult);
+            sheetResultOtchComparePredChist.Cells["A1"].Value = "До 15 человек";
+            sheetResultOtchComparePredChist.Cells["B1"].Value = "ОКПО";
+            sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
+            sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
+            sheetResultOtchComparePredChist.Cells["E1"].Value = "Чистый ОКВЭД текущий период";
+            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД предыдущий период";
 
-            sheetResultCompareOKVED.View.FreezePanes(2, 1);
-            sheetResultCompareOKVED.Cells[1, 1, 1, 6].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            sheetResultCompareOKVED.Cells[1, 1, 1, 6].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(217, 217, 217));
-            sheetResultCompareOKVED.Columns[1].Width = 20;
-            sheetResultCompareOKVED.Columns[2].Width = 32;
-            sheetResultCompareOKVED.Columns[3].Width = 32;
-            sheetResultCompareOKVED.Columns[4].Width = 32;
-            sheetResultCompareOKVED.Columns[5].Width = 32;
-            sheetResultCompareOKVED.Columns[6].Width = 32;
-            sheetResultCompareOKVED.Columns[1, 6].Style.Font.Name = "Arial";
-            sheetResultCompareOKVED.Columns[1, 6].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-            sheetResultCompareOKVED.Columns[1, 6].Style.Font.Size = 10;
-            sheetResultCompareOKVED.Cells[1, 1, 1, 6].Style.Font.Bold = true;
-            sheetResultCompareOKVED.Cells[1, 1, 1, 6].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-            sheetResultCompareOKVED.Rows[1].Height = 30;
-            sheetResultCompareOKVED.Cells[1, 1, rowsCountListCompareOKVED, 6].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-            sheetResultCompareOKVED.Cells[1, 1, rowsCountListCompareOKVED, 6].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-            sheetResultCompareOKVED.Cells[1, 1, rowsCountListCompareOKVED, 6].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-            sheetResultCompareOKVED.Cells[1, 1, rowsCountListCompareOKVED, 6].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+            sheetResultHozCompareChist.Cells[2, 1].LoadFromCollection<ModelResultHozChist>(resultHozCompareChist);
+            sheetResultOtchComparePredChist.Cells[2, 1].LoadFromCollection<ModelResultChist>(resultOtchComparePredChist);
+
+            SetPropertyColumnExcel(sheetResultHozCompareChist, countRowsResHozCompChist);
+            SetPropertyColumnExcel(sheetResultOtchComparePredChist, countRowsResOtchCompPredChist);
 
             return package.GetAsByteArray();
         }
