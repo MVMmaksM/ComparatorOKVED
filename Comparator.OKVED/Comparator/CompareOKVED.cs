@@ -32,11 +32,11 @@ namespace Comparator.OKVED.Comparator
                 OKPO = a.OKPO,
                 Name = a.Name,
                 OKATO = a.OKATO,
+                KodPokaz = a.KodPokaz,
                 OKVEDHoz = a.OKVEDHoz,
                 OKVEDChist = a.OKVEDChist
             });
         }
-
         public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> collectionPBD) 
         {
             var delAGOkved = DelOkvedAG(collectionPBD);
@@ -44,7 +44,7 @@ namespace Comparator.OKVED.Comparator
             var otchMesNotNull = periodMes.Where(a => a.OtchMes != null);
             var predMesNotNull = periodMes.Where(a => a.PredMes != null);
             var result = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist })
+                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz=a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist })
                 .Where(a => a.ChistOkvedOtchMes != a.ChistOKVEDPredMes);
 
             return result;
