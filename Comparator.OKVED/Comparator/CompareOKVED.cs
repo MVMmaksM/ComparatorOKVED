@@ -15,7 +15,7 @@ namespace Comparator.OKVED.Comparator
     {
         public IEnumerable<ModelResultHozChist> CompareChistHozOkved(IEnumerable<ModelPBD> collectionPBD)
         {
-            var delokvedAG = DelOkvedAG(collectionPBD).GroupBy(a => new { a.OKPO, a.OKVEDHoz, a.OKVEDChist }).Select(a => a.First());
+            var delokvedAG = DelOkvedAG(collectionPBD).Where(a=>a.OtchMes!=null||a.OtchKvart!=null).GroupBy(a => new { a.OKPO, a.OKVEDHoz, a.OKVEDChist }).Select(a => a.First());
             var hozEqualsChist = GetRowsOkvedHozEqualsChist(delokvedAG);
 
             var delHozSubStringChist = delokvedAG.Where(a => !a.OKVEDChist.Contains(a.OKVEDHoz));
