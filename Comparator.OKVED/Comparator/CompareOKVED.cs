@@ -47,13 +47,14 @@ namespace Comparator.OKVED.Comparator
             var resultCompareMes = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
                 (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist });
 
-            //var periodKvart = delAGOkved.Where(a => a.Period == "Да");
-            //var otchKvartNotNull = periodMes.Where(a => a.OtchKvart != null && a.PredKvart == null);
-            //var predKvartNotNull = periodMes.Where(a => a.PredKvart != null && a.OtchKvart == null);
-            //var resultCompareKvart = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-            //    (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist });
+            var periodKvart = delAGOkved.Where(a => a.Period == "Да");
+            var otchKvartNotNull = periodKvart.Where(a => a.OtchKvart != null && a.PredKvart == null);
+            var predKvartNotNull = periodKvart.Where(a => a.PredKvart != null && a.OtchKvart == null);
+            var resultCompareKvart = otchKvartNotNull.Join(predKvartNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
+                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchKvart=a.OKVEDChist, ChistOKVEDPredKvart = b.OKVEDChist });
 
-            return resultCompareMes;
+
+            return resultCompareMes.Union(resultCompareKvart);
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
