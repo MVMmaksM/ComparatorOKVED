@@ -41,20 +41,27 @@ namespace Comparator.OKVED.Comparator
         {
             var delAGOkved = DelOkvedAG(collectionPBD);
 
+            //var periodMes = delAGOkved.Where(a => a.Period == "Нет");
+            //var otchMesNotNull = periodMes.Where(a => a.OtchMes != null && a.PredMes == null);
+            //var predMesNotNull = periodMes.Where(a => a.PredMes != null && a.OtchMes == null);
+            //var resultCompareMes = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
+            //    (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist });
+
+            //var periodKvart = delAGOkved.Where(a => a.Period == "Да");
+            //var otchKvartNotNull = periodKvart.Where(a => a.OtchKvart != null && a.PredKvart == null);
+            //var predKvartNotNull = periodKvart.Where(a => a.PredKvart != null && a.OtchKvart == null);
+            //var resultCompareKvart = otchKvartNotNull.Join(predKvartNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
+            //    (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchKvart=a.OKVEDChist, ChistOKVEDPredKvart = b.OKVEDChist });
+
             var periodMes = delAGOkved.Where(a => a.Period == "Нет");
-            var otchMesNotNull = periodMes.Where(a => a.OtchMes != null && a.PredMes == null);
-            var predMesNotNull = periodMes.Where(a => a.PredMes != null && a.OtchMes == null);
-            var resultCompareMes = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist });
+            var resultMes = periodMes.Where(a => a.OtchMes != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
 
-            var periodKvart = delAGOkved.Where(a => a.Period == "Да");
-            var otchKvartNotNull = periodKvart.Where(a => a.OtchKvart != null && a.PredKvart == null);
-            var predKvartNotNull = periodKvart.Where(a => a.PredKvart != null && a.OtchKvart == null);
-            var resultCompareKvart = otchKvartNotNull.Join(predKvartNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-                (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchKvart=a.OKVEDChist, ChistOKVEDPredKvart = b.OKVEDChist });
+            var periodKvart = delAGOkved.Where(a => a.Period == "Нет");
+            var resultKvart = periodKvart.Where(a => a.OtchKvart != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
 
-
-            return resultCompareMes.Union(resultCompareKvart);
+            return resultMes.Union(resultKvart);
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
