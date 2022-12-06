@@ -81,8 +81,19 @@ namespace Comparator.OKVED.Comparator
                                      OKVEDCurPer = data_B.OKVEDChist,
                                      OKVEDPrevPer = prev.OKVEDChist
                                  };
-
+            
             var notInCurPer = leftJoinPrevPer.Where(a => string.IsNullOrEmpty(a.OKVEDCurPer));
+
+            var periodMes = delAGOkvedCurPer.Where(a => a.Period == "Нет");
+            var resultMes = periodMes.Where(a => a.OtchMes != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
+
+            var periodKvart = delAGOkvedCurPer.Where(a => a.Period == "Да");
+            var resultKvart = periodKvart.Where(a => a.OtchKvart != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
+
+            var unionKvartMes = resultMes.Union(resultKvart);
+            var unionCurPrevPer = notInCurPer.Union(notInPrevPer);
 
             //var periodMes = delAGOkved.Where(a => a.Period == "Нет");
             //var otchMesNotNull = periodMes.Where(a => a.OtchMes != null && a.PredMes == null);
@@ -105,7 +116,7 @@ namespace Comparator.OKVED.Comparator
             //a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
 
 
-            return notInPrevPer.Union(notInCurPer);
+            return unionKvartMes.Union(unionCurPrevPer);
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
