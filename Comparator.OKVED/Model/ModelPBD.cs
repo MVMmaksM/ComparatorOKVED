@@ -18,8 +18,10 @@ namespace Comparator.OKVED.Model
         public double? OtchMes { get; set; }
         public double? PredMes { get; set; }
         public double? SovMesPredGod { get; set; }
+        public double? PerSnachOtchGod { get; set; }
         public double? OtchKvart { get; set; }
         public double? PredKvart { get; set; }
+        public double? SovPerPredGod { get; set; }
         public double? SovKvartPredGod { get; set; }
     }
 }
