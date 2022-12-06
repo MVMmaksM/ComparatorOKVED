@@ -22,18 +22,11 @@
                 <MenuItem Header="Текущий log-файл" Click="MenuItemOpenLogFile_Click" />
             </MenuItem>
         </Menu>
-        <Button Content="Загрузить данные" HorizontalAlignment="Left" Margin="51,99,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcel_Click"/>
-        <Button Content="Сравнить" HorizontalAlignment="Left" Margin="51,163,0,0" VerticalAlignment="Top" Width="190" Click="BtnComapare_Click" Height="25">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="2"/>
-                </Style>
-            </Button.Resources>
-            <Button.Effect>
-                <DropShadowEffect Color="Black" Direction="290" ShadowDepth="3" Opacity="0.6"/>
-            </Button.Effect>
-        </Button>
-        <Label x:Name="LblLoad" Content="" HorizontalAlignment="Left" Margin="246,99,0,0" VerticalAlignment="Top" Width="190"/>
+        <Button Content="Загрузить текущий период" HorizontalAlignment="Left" Margin="51,41,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelCurPer_Click"/>
+        <Button Content="Загрузить предыдущий период" HorizontalAlignment="Left" Margin="51,95,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelPrevPer_Click"/>
+        <Button Content="Сравнить" HorizontalAlignment="Left" Margin="51,163,0,0" VerticalAlignment="Top" Width="190" Click="BtnComapare_Click" Height="25"/>
+        <Label x:Name="LblLoadExcelCurPer" Content="" HorizontalAlignment="Left" Margin="257,41,0,0" VerticalAlignment="Top" Width="227"/>
+        <Label x:Name="LblLoadExcelPrevPer" Content="" HorizontalAlignment="Left" Margin="257,95,0,0" VerticalAlignment="Top" Width="227"/>
         <StatusBar HorizontalAlignment="Left" Width="494" Height="23" VerticalAlignment="Bottom"/>
         <Label x:Name="LblCompare" Content="" HorizontalAlignment="Left" Margin="51,211,0,0" VerticalAlignment="Top" Width="190" Height="132"/>
         <GroupBox Header="Сортировать по:" Margin="277,163,10,28">

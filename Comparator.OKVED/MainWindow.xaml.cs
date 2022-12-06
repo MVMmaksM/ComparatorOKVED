@@ -20,7 +20,8 @@ namespace Comparator.OKVED
 {
     public partial class MainWindow : Window
     {
-        private IEnumerable<ModelPBD> _dataLoadPBD;
+        private IEnumerable<ModelPBD> _dataCurPerPBD;
+        private IEnumerable<ModelPBD> _dataPrevPerPBD;
         private IEnumerable<ModelResultHozChist> _compareResultHozChist;
         private RadioButton rdOrderBy;
         public MainWindow()
@@ -28,7 +29,7 @@ namespace Comparator.OKVED
             InitializeComponent();
         }
 
-        private async void BtnLoadExcel_Click(object sender, RoutedEventArgs e)
+        private async void BtnLoadExcelCurPer_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "*.xlsx|*.xlsx";
@@ -38,9 +39,31 @@ namespace Comparator.OKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblLoad.Content = "Загрузка...";
-                    await Task.Run(() => _dataLoadPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblLoad.Content = $"Загружено: {_dataLoadPBD?.Count() ?? 0} записей";
+                    LblLoadExcelCurPer.Content = "Загрузка...";
+                    await Task.Run(() => _dataCurPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
+                    LblLoadExcelCurPer.Content = $"Загружено: {_dataCurPerPBD?.Count() ?? 0} записей";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                //logger.Error(ex.Message + ex.StackTrace);
+            }
+        }
+        private async void BtnLoadExcelPrevPer_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            openFileDialog.Filter = "*.xlsx|*.xlsx";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            try
+            {
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    LblLoadExcelPrevPer.Content = "Загрузка...";
+                    await Task.Run(() => _dataPrevPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
+                    LblLoadExcelPrevPer.Content = $"Загружено: {_dataPrevPerPBD?.Count() ?? 0} записей";
                 }
             }
 
@@ -60,7 +83,7 @@ namespace Comparator.OKVED
             {
                 LblCompare.Content = "Выполнение...";
 
-                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataLoadPBD), comparer.CompareChistOkved(_dataLoadPBD)));
+                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
 
                 LblCompare.Content = "Выполнено!";
 
@@ -103,5 +126,6 @@ namespace Comparator.OKVED
         {
             rdOkpo.IsChecked = true;
         }
+
     }
 }
