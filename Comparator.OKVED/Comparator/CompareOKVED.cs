@@ -66,7 +66,7 @@ namespace Comparator.OKVED.Comparator
 
             var notInPrevPer = leftJoinCurPer.Where(a => string.IsNullOrEmpty(a.OKVEDPrevPer));
 
-            var leftJoinPrevPer = from prev in groupOkpoOkvedPrevPer  //left join для текущего периода
+            var leftJoinPrevPer = from prev in groupOkpoOkvedPrevPer  //left join для предыдущего периода
                                   join cur in groupOkpoOkvedCurPer
                                  on new { OKPO = prev.OKPO, OKVED = prev.OKVEDChist } equals new { OKPO = cur.OKPO, OKVED = cur.OKVEDChist }
                                  into data_A
@@ -86,11 +86,11 @@ namespace Comparator.OKVED.Comparator
 
             var periodMes = delAGOkvedCurPer.Where(a => a.Period == "Нет");
             var resultMes = periodMes.Where(a => a.OtchMes != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, OKVEDCurPer = a.OKVEDChist });
 
             var periodKvart = delAGOkvedCurPer.Where(a => a.Period == "Да");
             var resultKvart = periodKvart.Where(a => a.OtchKvart != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
+            a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, OKVEDCurPer = a.OKVEDChist });
 
             var unionKvartMes = resultMes.Union(resultKvart);
             var unionCurPrevPer = notInCurPer.Union(notInPrevPer);

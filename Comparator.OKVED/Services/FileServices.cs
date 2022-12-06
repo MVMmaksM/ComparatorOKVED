@@ -131,10 +131,10 @@ namespace Comparator.OKVED.Services
             sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
             sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
             sheetResultOtchComparePredChist.Cells["E1"].Value = "Код показателя";
-            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД отчетного месяца";
-            sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущего месяца";
-            sheetResultOtchComparePredChist.Cells["H1"].Value = "Чистый ОКВЭД отчетного квартала";
-            sheetResultOtchComparePredChist.Cells["I1"].Value = "Чистый ОКВЭД предыдущего квартала";
+            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД текущего периода";
+            sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущего периода";
+            //sheetResultOtchComparePredChist.Cells["H1"].Value = "Чистый ОКВЭД отчетного квартала";
+            //sheetResultOtchComparePredChist.Cells["I1"].Value = "Чистый ОКВЭД предыдущего квартала";
 
             SetPropertyColumnExcel(sheetResultHozCompareChist, countRowsResHozCompChist, typeof(ModelResultHozChist).GetProperties().Length);
             SetPropertyColumnExcel(sheetResultOtchComparePredChist, countRowsResOtchCompPredChist, typeof(ModelResultChist).GetProperties().Length);
