@@ -54,8 +54,7 @@ namespace Comparator.OKVED.Services
             excelWorksheet.Cells[1, 1, countRows, countColumn].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
         }
         public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
-        {
-            int a = 0;
+        {      
 
             try
             {
@@ -72,10 +71,12 @@ namespace Comparator.OKVED.Services
                 int numColOKVEDChist = GetNumberColumn(worksheet, "ОКВЭД Чистый");
                 int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");
                 int numColPredMes = GetNumberColumn(worksheet, "За предыдущий месяц");
-                //int numColSovMesPredGod = GetNumberColumn(worksheet, "");
+                int numColSovMesPredGod = GetNumberColumn(worksheet, "За соответствующий месяц прошлого года");
+                int numColPerSnachOtchGod = GetNumberColumn(worksheet, "За период с начала отчетного года");
                 int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
                 int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
-                //int numColSovKvartPredGod = GetNumberColumn(worksheet, "");               
+                int numColSovPerPredGod = GetNumberColumn(worksheet, "За соответствующий период предыдущего года");
+                int numColSovKvartPredGod = GetNumberColumn(worksheet, "За соответствующий квартал предыдущего года");
 
                 for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
@@ -92,17 +93,19 @@ namespace Comparator.OKVED.Services
                     newRow.PredMes = ValidationNullDataColumn(worksheet.Cells[i, numColPredMes].Value);
                     newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);
                     newRow.PredKvart = ValidationNullDataColumn(worksheet.Cells[i, numColPredKvart].Value);
+                    newRow.SovMesPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovMesPredGod].Value);
+                    newRow.PerSnachOtchGod = ValidationNullDataColumn(worksheet.Cells[i, numColPerSnachOtchGod].Value);
+                    newRow.SovPerPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovPerPredGod].Value);
+                    newRow.SovKvartPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovKvartPredGod].Value);
 
                     listDataPBD.Add(newRow);
-
-                    a += i;
                 }
 
                 return listDataPBD;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.StackTrace + "итерация" + a);
+                MessageBox.Show(ex.Message + ex.StackTrace + "итерация" );
                 return null;
             }
         }
