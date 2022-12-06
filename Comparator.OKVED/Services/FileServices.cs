@@ -54,7 +54,7 @@ namespace Comparator.OKVED.Services
             excelWorksheet.Cells[1, 1, countRows, countColumn].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
         }
         public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
-        {      
+        {
 
             try
             {
@@ -105,7 +105,7 @@ namespace Comparator.OKVED.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.StackTrace + "итерация" );
+                MessageBox.Show(ex.Message + ex.StackTrace + "итерация");
                 return null;
             }
         }
@@ -130,7 +130,6 @@ namespace Comparator.OKVED.Services
             sheetResultOtchComparePredChist.Cells["B1"].Value = "ОКПО";
             sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
             sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
-            sheetResultOtchComparePredChist.Cells["E1"].Value = "Код показателя";
             sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД текущего периода";
             sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущего периода";
             //sheetResultOtchComparePredChist.Cells["H1"].Value = "Чистый ОКВЭД отчетного квартала";
