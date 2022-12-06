@@ -13,9 +13,11 @@ namespace Comparator.OKVED.Model
         public string Name { get; set; }
         public string OKATO { get; set; }
         public string KodPokaz { get; set; }
-        public string ChistOkvedOtchMes { get; set; }
-        public string ChistOKVEDPredMes { get; set; }
-        public string ChistOkvedOtchKvart { get; set; }
-        public string ChistOKVEDPredKvart { get; set; }
+        public string OKVEDCurPer { get; set; }
+        public string OKVEDPrevPer { get; set; }
+        //public string ChistOkvedOtchMes { get; set; }
+        //public string ChistOKVEDPredMes { get; set; }
+        //public string ChistOkvedOtchKvart { get; set; }
+        //public string ChistOKVEDPredKvart { get; set; }
     }
 }
