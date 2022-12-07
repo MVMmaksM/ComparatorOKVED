@@ -16,8 +16,9 @@ using Comparator.OKVED.Services;
 using Comparator.OKVED.Model;
 using Comparator.OKVED.Comparator;
 using NLog;
+using System.Diagnostics;
 
-namespace Comparator.OKVED
+namespace ComparatorOKVED
 {
     public partial class MainWindow : Window
     {
@@ -117,12 +118,28 @@ namespace Comparator.OKVED
 
         private void MenuItemOpenLogDirectory_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                Process.Start($"{Environment.CurrentDirectory}\\logs");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                logger.Error("При открытии директории произошла ошибка: " + ex.Message + ex.StackTrace);
+            }
         }
 
         private void MenuItemOpenLogFile_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                Process.Start($"{Environment.CurrentDirectory}\\logs\\{DateTime.Now:yyyy-MM-dd}.log");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("при открытии файла произошла ошибка :" + ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                logger.Error(ex.Message + ex.StackTrace);
+            }
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
