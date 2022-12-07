@@ -29,13 +29,11 @@
         <Label x:Name="LblLoadExcelPrevPer" Content="" HorizontalAlignment="Left" Margin="257,95,0,0" VerticalAlignment="Top" Width="227"/>
         <StatusBar HorizontalAlignment="Left" Width="494" Height="23" VerticalAlignment="Bottom"/>
         <Label x:Name="LblCompare" Content="" HorizontalAlignment="Left" Margin="51,211,0,0" VerticalAlignment="Top" Width="190" Height="132"/>
-        <GroupBox Header="Сортировать по:" Margin="277,163,10,28">
+        <GroupBox Header="Сортировать по:" Margin="277,211,10,28">
             <StackPanel>
                 <RadioButton x:Name="rdOkpo" Content="ОКПО" Margin="10,10,10,0" Checked="RadioButton_Checked"/>
                 <RadioButton x:Name="rdName" Content="Наименованию предприятия" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
                 <RadioButton x:Name="rdOkato" Content="ОКАТО" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
-                <RadioButton x:Name="rdOkvedHoz" Content="Хозяйственному ОКВЭД" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
-                <RadioButton x:Name="rdOkvedChist" Content="Чистому ОКВЭД" Margin="10,10,0,0" Checked="RadioButton_Checked"/>
             </StackPanel>
         </GroupBox>
     </Grid>

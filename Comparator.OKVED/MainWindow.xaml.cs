@@ -25,10 +25,11 @@ namespace ComparatorOKVED
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private IEnumerable<ModelPBD> _dataCurPerPBD;
         private IEnumerable<ModelPBD> _dataPrevPerPBD;
-        private RadioButton rdOrderBy;
+        private string _rdOrderBy;
         public MainWindow()
         {
             InitializeComponent();
+            this.Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             logger.Info("Запуск программы");
         }
@@ -92,7 +93,7 @@ namespace ComparatorOKVED
             {
                 LblCompare.Content = "Выполнение...";
 
-                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
+                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD, _rdOrderBy)));
 
                 LblCompare.Content = "Выполнено!";
 
@@ -144,7 +145,7 @@ namespace ComparatorOKVED
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            rdOrderBy = (RadioButton)sender;
+            _rdOrderBy = ((RadioButton)sender).Content.ToString();
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)

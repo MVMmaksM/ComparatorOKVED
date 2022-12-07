@@ -31,12 +31,12 @@ namespace Comparator.OKVED.Comparator
                 Period = a.Period,
                 OKPO = a.OKPO,
                 Name = a.Name,
-                OKATO = a.OKATO,               
+                OKATO = a.OKATO,
                 OKVEDHoz = a.OKVEDHoz,
                 OKVEDChist = a.OKVEDChist
             });
         }
-        public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> dataCurPerPBD, IEnumerable<ModelPBD> dataPrevPerPBD)
+        public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> dataCurPerPBD, IEnumerable<ModelPBD> dataPrevPerPBD, string rdButtonOrderBy)
         {
             var delAGOkvedCurPer = DelOkvedAG(dataCurPerPBD);
             var delAGOkvedPrevPer = DelOkvedAG(dataPrevPerPBD);
@@ -56,7 +56,7 @@ namespace Comparator.OKVED.Comparator
                                  {
                                      Period = cur.Period,
                                      OKPO = cur.OKPO,
-                                     Name = cur.Name,                                     
+                                     Name = cur.Name,
                                      OKATO = cur.OKATO,
                                      OKVEDCurPer = cur.OKVEDChist,
                                      OKVEDPrevPer = data_B.OKVEDChist
@@ -68,84 +68,46 @@ namespace Comparator.OKVED.Comparator
                                   join cur in groupOkpoOkvedCurPer
                                  on new { OKPO = prev.OKPO, OKVED = prev.OKVEDChist } equals new { OKPO = cur.OKPO, OKVED = cur.OKVEDChist }
                                  into data_A
-                                 from data_B in data_A.DefaultIfEmpty(new ModelPBD())
-                                 select new ModelResultChist()
-                                 {
-                                     Period = prev.Period,
-                                     OKPO = prev.OKPO,
-                                     Name = prev.Name,                                 
-                                     OKATO = prev.OKATO,
-                                     OKVEDCurPer = data_B.OKVEDChist,
-                                     OKVEDPrevPer = prev.OKVEDChist
-                                 };
-            
+                                  from data_B in data_A.DefaultIfEmpty(new ModelPBD())
+                                  select new ModelResultChist()
+                                  {
+                                      Period = prev.Period,
+                                      OKPO = prev.OKPO,
+                                      Name = prev.Name,
+                                      OKATO = prev.OKATO,
+                                      OKVEDCurPer = data_B.OKVEDChist,
+                                      OKVEDPrevPer = prev.OKVEDChist
+                                  };
+
             var notInCurPer = leftJoinPrevPer.Where(a => string.IsNullOrEmpty(a.OKVEDCurPer));
 
-            //var periodMes = delAGOkvedCurPer.Where(a => a.Period == "Нет");
-            //var resultMes = periodMes.Where(a => a.OtchMes != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            //a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, OKVEDCurPer = a.OKVEDChist });
-
-            //var periodKvart = delAGOkvedCurPer.Where(a => a.Period == "Да");
-            //var resultKvart = periodKvart.Where(a => a.OtchKvart != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            //a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, OKVEDCurPer = a.OKVEDChist });
-
-            //var unionKvartMes = resultMes.Union(resultKvart);
             var unionCurPrevPer = notInCurPer.Union(notInPrevPer);
 
-            ////var periodMes = delAGOkved.Where(a => a.Period == "Нет");
-            ////var otchMesNotNull = periodMes.Where(a => a.OtchMes != null && a.PredMes == null);
-            ////var predMesNotNull = periodMes.Where(a => a.PredMes != null && a.OtchMes == null);
-            ////var resultCompareMes = otchMesNotNull.Join(predMesNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-            ////    (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist, ChistOKVEDPredMes = b.OKVEDChist });
-
-            ////var periodKvart = delAGOkved.Where(a => a.Period == "Да");
-            ////var otchKvartNotNull = periodKvart.Where(a => a.OtchKvart != null && a.PredKvart == null);
-            ////var predKvartNotNull = periodKvart.Where(a => a.PredKvart != null && a.OtchKvart == null);
-            ////var resultCompareKvart = otchKvartNotNull.Join(predKvartNotNull, a => new { a.OKPO, a.KodPokaz }, b => new { b.OKPO, b.KodPokaz },
-            ////    (a, b) => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchKvart=a.OKVEDChist, ChistOKVEDPredKvart = b.OKVEDChist });
-
-            ////var periodMes = delAGOkved.Where(a => a.Period == "Нет");
-            ////var resultMes = periodMes.Where(a => a.OtchMes != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            ////a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
-
-            ////var periodKvart = delAGOkved.Where(a => a.Period == "Нет");
-            ////var resultKvart = periodKvart.Where(a => a.OtchKvart != null && a.PredMes == null && a.PerSnachOtchGod == null && a.SovMesPredGod == null && a.SovPerPredGod == null &&
-            ////a.OtchKvart == null && a.PredKvart == null && a.SovKvartPredGod == null).Select(a => new ModelResultChist { Period = a.Period, OKPO = a.OKPO, Name = a.Name, OKATO = a.OKATO, KodPokaz = a.KodPokaz, ChistOkvedOtchMes = a.OKVEDChist });
-
-
-            // return unionKvartMes.Union(unionCurPrevPer);
-
-           return unionCurPrevPer;
+            return unionCurPrevPer;
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
-        private PropertyInfo GetPropertyInfoRadioButton(object radioButtonOrderBy)
+        private PropertyInfo GetPropertyInfoRadioButton(string radioButtonOrderBy)
         {
             string paramName = string.Empty;
 
-            var modelResultHozChist = new ModelResultHozChist();
+            var modelResultChist = new ModelResultChist();
             switch (radioButtonOrderBy)
             {
                 case "ОКПО":
-                    paramName = nameof(modelResultHozChist.OKPO);
+                    paramName = nameof(modelResultChist.OKPO);
                     break;
                 case "Наименованию предприятия":
-                    paramName = nameof(modelResultHozChist.Name);
+                    paramName = nameof(modelResultChist.Name);
                     break;
                 case "ОКАТО":
-                    paramName = nameof(modelResultHozChist.OKATO);
-                    break;
-                case "Хозяйственному ОКВЭД":
-                    paramName = nameof(modelResultHozChist.OKVEDHoz);
-                    break;
-                case "Чистому ОКВЭД":
-                    paramName = nameof(modelResultHozChist.OKVEDChist);
+                    paramName = nameof(modelResultChist.OKATO);
                     break;
                 default:
                     break;
             }
 
-            return typeof(ModelResultHozChist).GetProperty(paramName);
+            return typeof(ModelResultChist).GetProperty(paramName);
         }
     }
 }

@@ -113,38 +113,43 @@ namespace Comparator.OKVED.Services
         }
         public static byte[] CreateExcelResultCompare(IEnumerable<ModelResultHozChist> resultHozCompareChist, IEnumerable<ModelResultChist> resultOtchComparePredChist)
         {
-            var package = new ExcelPackage();
-            var sheetResultHozCompareChist = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
-            var sheetResultOtchComparePredChist = package.Workbook.Worksheets.Add("Сравнение чистого ОКВЭД");
+            try
+            {
+                var package = new ExcelPackage();
+                var sheetResultHozCompareChist = package.Workbook.Worksheets.Add("Сравнение хозяйственного и чистого ОКВЭД");
+                var sheetResultOtchComparePredChist = package.Workbook.Worksheets.Add("Сравнение чистого ОКВЭД");
 
-            int countRowsResHozCompChist = resultHozCompareChist.Count() + 1;
-            int countRowsResOtchCompPredChist = resultOtchComparePredChist.Count() + 1;
+                int countRowsResHozCompChist = resultHozCompareChist.Count() + 1;
+                int countRowsResOtchCompPredChist = resultOtchComparePredChist.Count() + 1;
 
-            sheetResultHozCompareChist.Cells["A1"].Value = "До 15 человек";
-            sheetResultHozCompareChist.Cells["B1"].Value = "ОКПО";
-            sheetResultHozCompareChist.Cells["C1"].Value = "Наименование предприятия";
-            sheetResultHozCompareChist.Cells["D1"].Value = "ОКАТО";
-            sheetResultHozCompareChist.Cells["E1"].Value = "ОКВЭД хозяйственный";
-            sheetResultHozCompareChist.Cells["F1"].Value = "ОКВЭД чистый";
-            //sheetResultHozCompareChist.Cells["E1"].Value = "Код показателя";
+                sheetResultHozCompareChist.Cells["A1"].Value = "До 15 человек";
+                sheetResultHozCompareChist.Cells["B1"].Value = "ОКПО";
+                sheetResultHozCompareChist.Cells["C1"].Value = "Наименование предприятия";
+                sheetResultHozCompareChist.Cells["D1"].Value = "ОКАТО";
+                sheetResultHozCompareChist.Cells["E1"].Value = "ОКВЭД хозяйственный";
+                sheetResultHozCompareChist.Cells["F1"].Value = "ОКВЭД чистый";
 
-            sheetResultOtchComparePredChist.Cells["A1"].Value = "До 15 человек";
-            sheetResultOtchComparePredChist.Cells["B1"].Value = "ОКПО";
-            sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
-            sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
-            sheetResultOtchComparePredChist.Cells["E1"].Value = "Чистый ОКВЭД текущего периода";
-            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД предыдущего периода";
-            //sheetResultOtchComparePredChist.Cells["H1"].Value = "Чистый ОКВЭД отчетного квартала";
-            //sheetResultOtchComparePredChist.Cells["I1"].Value = "Чистый ОКВЭД предыдущего квартала";
+                sheetResultOtchComparePredChist.Cells["A1"].Value = "До 15 человек";
+                sheetResultOtchComparePredChist.Cells["B1"].Value = "ОКПО";
+                sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
+                sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
+                sheetResultOtchComparePredChist.Cells["E1"].Value = "Чистый ОКВЭД текущего периода";
+                sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД предыдущего периода";
 
-            SetPropertyColumnExcel(sheetResultHozCompareChist, countRowsResHozCompChist, typeof(ModelResultHozChist).GetProperties().Length);
-            SetPropertyColumnExcel(sheetResultOtchComparePredChist, countRowsResOtchCompPredChist, typeof(ModelResultChist).GetProperties().Length);
+                SetPropertyColumnExcel(sheetResultHozCompareChist, countRowsResHozCompChist, typeof(ModelResultHozChist).GetProperties().Length);
+                SetPropertyColumnExcel(sheetResultOtchComparePredChist, countRowsResOtchCompPredChist, typeof(ModelResultChist).GetProperties().Length);
 
-            sheetResultHozCompareChist.Cells[2, 1].LoadFromCollection<ModelResultHozChist>(resultHozCompareChist);
-            sheetResultOtchComparePredChist.Cells[2, 1].LoadFromCollection<ModelResultChist>(resultOtchComparePredChist);
+                sheetResultHozCompareChist.Cells[2, 1].LoadFromCollection<ModelResultHozChist>(resultHozCompareChist);
+                sheetResultOtchComparePredChist.Cells[2, 1].LoadFromCollection<ModelResultChist>(resultOtchComparePredChist);
 
+                return package.GetAsByteArray();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+                return null;
+            }
 
-            return package.GetAsByteArray();
         }
         public static void SaveFile(byte[] dataSave, string pathSave)
         {
@@ -154,7 +159,7 @@ namespace Comparator.OKVED.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"При сохранении файла возникла ошибка: {ex.Message} + \nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show($"При сохранении файла возникла ошибка: {ex.Message}\nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 logger.Error(ex.Message + ex.StackTrace);
             }
         }
