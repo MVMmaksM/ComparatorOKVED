@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Comparator.OKVED.Model;
 using System.IO;
-using System.Windows.Forms;
+using System.Windows;
+using NLog;
 
 namespace Comparator.OKVED.Services
 {
     class FileServices
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private static double? ValidationNullDataColumn(object value)
         {
             if (value != null)
@@ -55,7 +57,6 @@ namespace Comparator.OKVED.Services
         }
         public static IEnumerable<ModelPBD> LoadExcelPBD(string pathFile)
         {
-
             try
             {
                 ExcelPackage package = new ExcelPackage(pathFile);
@@ -70,13 +71,13 @@ namespace Comparator.OKVED.Services
                 int numColOKVEDHoz = GetNumberColumn(worksheet, "ОКВЭД Хозяйственный");
                 int numColOKVEDChist = GetNumberColumn(worksheet, "ОКВЭД Чистый");
                 int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");
-                int numColPredMes = GetNumberColumn(worksheet, "За предыдущий месяц");
-                int numColSovMesPredGod = GetNumberColumn(worksheet, "За соответствующий месяц прошлого года");
-                int numColPerSnachOtchGod = GetNumberColumn(worksheet, "За период с начала отчетного года");
+                //int numColPredMes = GetNumberColumn(worksheet, "За предыдущий месяц");
+                //int numColSovMesPredGod = GetNumberColumn(worksheet, "За соответствующий месяц прошлого года");
+                //int numColPerSnachOtchGod = GetNumberColumn(worksheet, "За период с начала отчетного года");
                 int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
-                int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
-                int numColSovPerPredGod = GetNumberColumn(worksheet, "За соответствующий период предыдущего года");
-                int numColSovKvartPredGod = GetNumberColumn(worksheet, "За соответствующий квартал предыдущего года");
+                //int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
+                //int numColSovPerPredGod = GetNumberColumn(worksheet, "За соответствующий период предыдущего года");
+                //int numColSovKvartPredGod = GetNumberColumn(worksheet, "За соответствующий квартал предыдущего года");
 
                 for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
@@ -90,13 +91,13 @@ namespace Comparator.OKVED.Services
                     newRow.OKVEDChist = worksheet.Cells[i, numColOKVEDChist].Value.ToString();
 
                     newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, numColOtchMes].Value);
-                    newRow.PredMes = ValidationNullDataColumn(worksheet.Cells[i, numColPredMes].Value);
+                    //newRow.PredMes = ValidationNullDataColumn(worksheet.Cells[i, numColPredMes].Value);
                     newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);
-                    newRow.PredKvart = ValidationNullDataColumn(worksheet.Cells[i, numColPredKvart].Value);
-                    newRow.SovMesPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovMesPredGod].Value);
-                    newRow.PerSnachOtchGod = ValidationNullDataColumn(worksheet.Cells[i, numColPerSnachOtchGod].Value);
-                    newRow.SovPerPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovPerPredGod].Value);
-                    newRow.SovKvartPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovKvartPredGod].Value);
+                    //newRow.PredKvart = ValidationNullDataColumn(worksheet.Cells[i, numColPredKvart].Value);
+                    //newRow.SovMesPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovMesPredGod].Value);
+                    //newRow.PerSnachOtchGod = ValidationNullDataColumn(worksheet.Cells[i, numColPerSnachOtchGod].Value);
+                    //newRow.SovPerPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovPerPredGod].Value);
+                    //newRow.SovKvartPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovKvartPredGod].Value);
 
                     listDataPBD.Add(newRow);
                 }
@@ -105,7 +106,8 @@ namespace Comparator.OKVED.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.StackTrace + "итерация");
+                MessageBox.Show($"При загрузке данных возникла ошибка: {ex.Message} + \nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                logger.Error(ex.Message + ex.StackTrace);
                 return null;
             }
         }
@@ -122,16 +124,16 @@ namespace Comparator.OKVED.Services
             sheetResultHozCompareChist.Cells["B1"].Value = "ОКПО";
             sheetResultHozCompareChist.Cells["C1"].Value = "Наименование предприятия";
             sheetResultHozCompareChist.Cells["D1"].Value = "ОКАТО";
-            sheetResultHozCompareChist.Cells["E1"].Value = "Код показателя";
-            sheetResultHozCompareChist.Cells["F1"].Value = "ОКВЭД хозяйственный";
-            sheetResultHozCompareChist.Cells["G1"].Value = "ОКВЭД чистый";
+            sheetResultHozCompareChist.Cells["E1"].Value = "ОКВЭД хозяйственный";
+            sheetResultHozCompareChist.Cells["F1"].Value = "ОКВЭД чистый";
+            //sheetResultHozCompareChist.Cells["E1"].Value = "Код показателя";
 
             sheetResultOtchComparePredChist.Cells["A1"].Value = "До 15 человек";
             sheetResultOtchComparePredChist.Cells["B1"].Value = "ОКПО";
             sheetResultOtchComparePredChist.Cells["C1"].Value = "Наименование предприятия";
             sheetResultOtchComparePredChist.Cells["D1"].Value = "ОКАТО";
-            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД текущего периода";
-            sheetResultOtchComparePredChist.Cells["G1"].Value = "Чистый ОКВЭД предыдущего периода";
+            sheetResultOtchComparePredChist.Cells["E1"].Value = "Чистый ОКВЭД текущего периода";
+            sheetResultOtchComparePredChist.Cells["F1"].Value = "Чистый ОКВЭД предыдущего периода";
             //sheetResultOtchComparePredChist.Cells["H1"].Value = "Чистый ОКВЭД отчетного квартала";
             //sheetResultOtchComparePredChist.Cells["I1"].Value = "Чистый ОКВЭД предыдущего квартала";
 
@@ -146,7 +148,15 @@ namespace Comparator.OKVED.Services
         }
         public static void SaveFile(byte[] dataSave, string pathSave)
         {
-            File.WriteAllBytes(pathSave, dataSave);
+            try
+            {
+                File.WriteAllBytes(pathSave, dataSave);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"При сохранении файла возникла ошибка: {ex.Message} + \nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                logger.Error(ex.Message + ex.StackTrace);
+            }
         }
     }
 }

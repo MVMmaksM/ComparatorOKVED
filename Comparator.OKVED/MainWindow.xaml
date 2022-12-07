@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Comparator.OKVED"
         mc:Ignorable="d"
-       Title="ComparatorOKVED" Height="400" Width="500" ResizeMode="NoResize">
+       Title="ComparatorOKVED" Height="400" Width="500" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Effect">

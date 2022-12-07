@@ -15,22 +15,27 @@ using System.Windows.Shapes;
 using Comparator.OKVED.Services;
 using Comparator.OKVED.Model;
 using Comparator.OKVED.Comparator;
+using NLog;
 
 namespace Comparator.OKVED
 {
     public partial class MainWindow : Window
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private IEnumerable<ModelPBD> _dataCurPerPBD;
         private IEnumerable<ModelPBD> _dataPrevPerPBD;
-        private IEnumerable<ModelResultHozChist> _compareResultHozChist;
         private RadioButton rdOrderBy;
         public MainWindow()
         {
             InitializeComponent();
+
+            logger.Info("Запуск программы");
         }
 
         private async void BtnLoadExcelCurPer_Click(object sender, RoutedEventArgs e)
         {
+            logger.Info("Выполнение метода BtnLoadExcelCurPer_Click");
+
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "*.xlsx|*.xlsx";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -48,11 +53,13 @@ namespace Comparator.OKVED
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-                //logger.Error(ex.Message + ex.StackTrace);
+                logger.Error(ex.Message + ex.StackTrace);
             }
         }
         private async void BtnLoadExcelPrevPer_Click(object sender, RoutedEventArgs e)
         {
+            logger.Info("Выполнение метода BtnLoadExcelPrevPer_Click");
+
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "*.xlsx|*.xlsx";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -70,12 +77,13 @@ namespace Comparator.OKVED
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-                //logger.Error(ex.Message + ex.StackTrace);
+                logger.Error(ex.Message + ex.StackTrace);
             }
         }
-
         private async void BtnComapare_Click(object sender, RoutedEventArgs e)
         {
+            logger.Info("Выполнение метода BtnComapare_Click");
+
             byte[] fileResult = null;
             CompareOKVED comparer = new CompareOKVED();
 
@@ -102,7 +110,7 @@ namespace Comparator.OKVED
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-                //logger.Error(ex.Message + ex.StackTrace);
+                logger.Error(ex.Message + ex.StackTrace);
             }
 
         }
@@ -127,5 +135,9 @@ namespace Comparator.OKVED
             rdOkpo.IsChecked = true;
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            logger.Info("Завершение программы");
+        }
     }
 }

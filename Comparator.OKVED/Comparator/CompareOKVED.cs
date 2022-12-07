@@ -31,8 +31,7 @@ namespace Comparator.OKVED.Comparator
                 Period = a.Period,
                 OKPO = a.OKPO,
                 Name = a.Name,
-                OKATO = a.OKATO,
-                KodPokaz = a.KodPokaz,
+                OKATO = a.OKATO,               
                 OKVEDHoz = a.OKVEDHoz,
                 OKVEDChist = a.OKVEDChist
             });
