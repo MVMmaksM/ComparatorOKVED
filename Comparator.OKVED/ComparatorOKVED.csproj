@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>458-4588695_compare-price-icon-price-comparison-icon-hd-png %281%29.ico</ApplicationIcon>
+    <ApplicationIcon>458-4588695_compare-price-icon-price-comparison-icon-hd-png.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -265,7 +265,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="458-4588695_compare-price-icon-price-comparison-icon-hd-png %281%29.ico" />
+    <Resource Include="458-4588695_compare-price-icon-price-comparison-icon-hd-png.ico" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
