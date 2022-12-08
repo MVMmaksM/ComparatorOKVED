@@ -21,6 +21,7 @@
                 <MenuItem Header="Открыть папку log" Click="MenuItemOpenLogDirectory_Click" />
                 <MenuItem Header="Открыть текущий log-файл" Click="MenuItemOpenLogFile_Click" />
             </MenuItem>
+            <MenuItem Header="О программе" Click="MenuReadme_Click"/>
         </Menu>
         <Button Content="Загрузить текущий период" HorizontalAlignment="Left" Margin="21,40,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelCurPer_Click"/>
         <Button Content="Загрузить предыдущий период" HorizontalAlignment="Left" Margin="21,75,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelPrevPer_Click"/>

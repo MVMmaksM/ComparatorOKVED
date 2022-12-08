@@ -139,7 +139,7 @@ namespace ComparatorOKVED
             }
             catch (Exception ex)
             {
-                MessageBox.Show("при открытии файла произошла ошибка :" + ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show("При открытии файла произошла ошибка :" + ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 logger.Error(ex.Message + ex.StackTrace);
             }
         }
@@ -176,6 +176,19 @@ namespace ComparatorOKVED
             else
             {
                 return false;
+            }
+        }
+
+        private void MenuReadme_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start($"{Environment.CurrentDirectory}\\Readme.txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("При открытии файла Readme произошла ошибка :" + ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                logger.Error(ex.Message + ex.StackTrace);
             }
         }
     }
