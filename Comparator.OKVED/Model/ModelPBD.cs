@@ -11,10 +11,10 @@ namespace Comparator.OKVED.Model
         public string Period { get; set; }
         public string OKATO { get; set; }
         public string OKPO { get; set; }
-        public string Name { get; set; }       
+        public string Name { get; set; }
         public string OKVEDHoz { get; set; }
         public string OKVEDChist { get; set; }
-        public double? OtchMes { get; set; }        
-        public double? OtchKvart { get; set; }        
+        public double? OtchMes { get; set; }
+        public double? OtchKvart { get; set; }
     }
 }

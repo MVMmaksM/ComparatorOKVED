@@ -93,7 +93,7 @@ namespace Comparator.OKVED.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"При загрузке данных возникла ошибка: {ex.Message} + \nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show($"При загрузке данных возникла ошибка: {ex.Message} \nПодробная информация в log-файле", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 logger.Error(ex.Message + ex.StackTrace);
                 return null;
             }
