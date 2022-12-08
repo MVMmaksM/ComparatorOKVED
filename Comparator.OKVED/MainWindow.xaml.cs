@@ -69,7 +69,7 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblCompare.Text += $"\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
+                    LblCompare.Text += $"\n\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataPrevPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
                     LblCompare.Text += $"\n\nЗагружено в предыдущий период: {_dataPrevPerPBD?.Count() ?? 0} записей\n";
                 }
