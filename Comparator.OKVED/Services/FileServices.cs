@@ -66,18 +66,12 @@ namespace Comparator.OKVED.Services
                 int numColPeriod = GetNumberColumn(worksheet, "До 15 человек");
                 int numColOKATO = GetNumberColumn(worksheet, "ОКАТО");
                 int numColOKPO = GetNumberColumn(worksheet, "ОКПО");
-                int numColName = GetNumberColumn(worksheet, "Наименование предприятия");
-                int numColKodPokaz = GetNumberColumn(worksheet, "Код показателя");
+                int numColName = GetNumberColumn(worksheet, "Наименование предприятия");          
                 int numColOKVEDHoz = GetNumberColumn(worksheet, "ОКВЭД Хозяйственный");
                 int numColOKVEDChist = GetNumberColumn(worksheet, "ОКВЭД Чистый");
-                int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");
-                //int numColPredMes = GetNumberColumn(worksheet, "За предыдущий месяц");
-                //int numColSovMesPredGod = GetNumberColumn(worksheet, "За соответствующий месяц прошлого года");
-                //int numColPerSnachOtchGod = GetNumberColumn(worksheet, "За период с начала отчетного года");
+                int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");               
                 int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
-                //int numColPredKvart = GetNumberColumn(worksheet, "За предыдущий квартал");
-                //int numColSovPerPredGod = GetNumberColumn(worksheet, "За соответствующий период предыдущего года");
-                //int numColSovKvartPredGod = GetNumberColumn(worksheet, "За соответствующий квартал предыдущего года");
+               
 
                 for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
@@ -85,19 +79,12 @@ namespace Comparator.OKVED.Services
                     newRow.Period = worksheet.Cells[i, numColPeriod].Value.ToString();
                     newRow.OKATO = worksheet.Cells[i, numColOKATO].Value.ToString();
                     newRow.OKPO = worksheet.Cells[i, numColOKPO].Value.ToString();
-                    newRow.Name = worksheet.Cells[i, numColName].Value.ToString();
-                    newRow.KodPokaz = worksheet.Cells[i, numColKodPokaz].Value.ToString();
+                    newRow.Name = worksheet.Cells[i, numColName].Value.ToString();                
                     newRow.OKVEDHoz = worksheet.Cells[i, numColOKVEDHoz].Value.ToString();
                     newRow.OKVEDChist = worksheet.Cells[i, numColOKVEDChist].Value.ToString();
 
-                    newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, numColOtchMes].Value);
-                    //newRow.PredMes = ValidationNullDataColumn(worksheet.Cells[i, numColPredMes].Value);
-                    newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);
-                    //newRow.PredKvart = ValidationNullDataColumn(worksheet.Cells[i, numColPredKvart].Value);
-                    //newRow.SovMesPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovMesPredGod].Value);
-                    //newRow.PerSnachOtchGod = ValidationNullDataColumn(worksheet.Cells[i, numColPerSnachOtchGod].Value);
-                    //newRow.SovPerPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovPerPredGod].Value);
-                    //newRow.SovKvartPredGod = ValidationNullDataColumn(worksheet.Cells[i, numColSovKvartPredGod].Value);
+                    newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, numColOtchMes].Value);                   
+                    newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);                  
 
                     listDataPBD.Add(newRow);
                 }
