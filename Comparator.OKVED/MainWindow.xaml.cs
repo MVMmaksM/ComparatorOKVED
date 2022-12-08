@@ -71,7 +71,7 @@ namespace ComparatorOKVED
                 {
                     LblCompare.Text += $"\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataPrevPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblCompare.Text += $"\n\nЗагружено в текущий период: {_dataPrevPerPBD?.Count() ?? 0} записей\n";
+                    LblCompare.Text += $"\n\nЗагружено в предыдущий период: {_dataPrevPerPBD?.Count() ?? 0} записей\n";
                 }
             }
 
@@ -92,7 +92,7 @@ namespace ComparatorOKVED
 
                 try
                 {
-                    LblCompare.Text += "\n\nВыполнение...";
+                    LblCompare.Text += "\n\nВыполненяется сравнение...";
 
                     await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
 
