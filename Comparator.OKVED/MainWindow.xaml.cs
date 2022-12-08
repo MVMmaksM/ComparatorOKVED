@@ -25,11 +25,10 @@ namespace ComparatorOKVED
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private IEnumerable<ModelPBD> _dataCurPerPBD;
         private IEnumerable<ModelPBD> _dataPrevPerPBD;
-        private string _rdOrderBy;
         public MainWindow()
         {
             InitializeComponent();
-            this.Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Title = AssemblyInfo.GetAssemblyInfo();
 
             logger.Info("Запуск программы");
         }
@@ -86,35 +85,37 @@ namespace ComparatorOKVED
         {
             logger.Info("Выполнение метода BtnComapare_Click");
 
-            byte[] fileResult = null;
-            CompareOKVED comparer = new CompareOKVED();
-
-            try
+            if (!IsNullDataPBD(_dataCurPerPBD, _dataPrevPerPBD))
             {
-                LblCompare.Text += "\n\nВыполнение...";
+                byte[] fileResult = null;
+                CompareOKVED comparer = new CompareOKVED();
 
-                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
-
-                LblCompare.Text += "\n\nВыполнено!";
-
-                System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                saveFileDialog.Filter = "|*.xlsx";
-                saveFileDialog.FileName = $"Расхождение по ОКВЭД от {DateTime.Now.ToShortDateString()}";
-
-                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                try
                 {
-                    FileServices.SaveFile(fileResult, saveFileDialog.FileName);
+                    LblCompare.Text += "\n\nВыполнение...";
 
-                    MessageBox.Show($"Файл сохранен на {saveFileDialog.FileName}", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                    await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
+
+                    LblCompare.Text += "\n\nВыполнено!";
+
+                    System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    saveFileDialog.Filter = "|*.xlsx";
+                    saveFileDialog.FileName = $"Расхождение по ОКВЭД от {DateTime.Now.ToShortDateString()}";
+
+                    if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        FileServices.SaveFile(fileResult, saveFileDialog.FileName);
+
+                        MessageBox.Show($"Файл сохранен на {saveFileDialog.FileName}", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    logger.Error(ex.Message + ex.StackTrace);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-                logger.Error(ex.Message + ex.StackTrace);
-            }
-
         }
 
         private void MenuItemOpenLogDirectory_Click(object sender, RoutedEventArgs e)
@@ -156,6 +157,26 @@ namespace ComparatorOKVED
         private void Window_Closed(object sender, EventArgs e)
         {
             logger.Info("Завершение программы");
+        }
+
+        private bool IsNullDataPBD(IEnumerable<ModelPBD> _dataCurPerPBD, IEnumerable<ModelPBD> _dataPrevPerPBD)
+        {
+            logger.Info("Выполнение метода IsNullDataPBD");
+
+            if (_dataCurPerPBD is null)
+            {
+                MessageBox.Show("Не загружены данные за текущий период!", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                return true;
+            }
+            else if (_dataPrevPerPBD is null)
+            {
+                MessageBox.Show("Не загружены данные за предыдущий период!", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
