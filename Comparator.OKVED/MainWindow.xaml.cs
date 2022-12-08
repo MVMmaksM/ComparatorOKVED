@@ -46,9 +46,9 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblLoadExcelCurPer.Content = "Загрузка...";
+                    LblCompare.Text += $"Загрузка в текущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataCurPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblLoadExcelCurPer.Content = $"Загружено: {_dataCurPerPBD?.Count() ?? 0} записей";
+                    LblCompare.Text += $"\n\nЗагружено в текущий период: {_dataCurPerPBD?.Count() ?? 0} записей";
                 }
             }
 
@@ -70,9 +70,9 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblLoadExcelPrevPer.Content = "Загрузка...";
+                    LblCompare.Text += $"\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataPrevPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblLoadExcelPrevPer.Content = $"Загружено: {_dataPrevPerPBD?.Count() ?? 0} записей";
+                    LblCompare.Text += $"\n\nЗагружено в текущий период: {_dataPrevPerPBD?.Count() ?? 0} записей\n";
                 }
             }
 
@@ -91,11 +91,11 @@ namespace ComparatorOKVED
 
             try
             {
-                LblCompare.Content = "Выполнение...";
+                LblCompare.Text += "\n\nВыполнение...";
 
-                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD, _rdOrderBy)));
+                await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
 
-                LblCompare.Content = "Выполнено!";
+                LblCompare.Text += "\n\nВыполнено!";
 
                 System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -145,12 +145,12 @@ namespace ComparatorOKVED
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            _rdOrderBy = ((RadioButton)sender).Content.ToString();
+            //_rdOrderBy = ((RadioButton)sender).Content.ToString();
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            rdOkpo.IsChecked = true;
+            //rdOkpo.IsChecked = true;
         }
 
         private void Window_Closed(object sender, EventArgs e)

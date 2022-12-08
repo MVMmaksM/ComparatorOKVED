@@ -36,7 +36,7 @@ namespace Comparator.OKVED.Comparator
                 OKVEDChist = a.OKVEDChist
             });
         }
-        public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> dataCurPerPBD, IEnumerable<ModelPBD> dataPrevPerPBD, string rdButtonOrderBy)
+        public IEnumerable<ModelResultChist> CompareChistOkved(IEnumerable<ModelPBD> dataCurPerPBD, IEnumerable<ModelPBD> dataPrevPerPBD)
         {
             var delAGOkvedCurPer = DelOkvedAG(dataCurPerPBD);
             var delAGOkvedPrevPer = DelOkvedAG(dataPrevPerPBD);
