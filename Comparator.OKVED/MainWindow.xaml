@@ -28,7 +28,7 @@
         <Button Content="Сравнить" HorizontalAlignment="Left" Margin="21,131,0,0" VerticalAlignment="Top" Width="190" Click="BtnComapare_Click" Height="25"/>
         <StatusBar Height="23" VerticalAlignment="Bottom"/>
         <ScrollViewer Margin="226,40,10,28">
-            <TextBox x:Name="LblCompare" Text="" TextWrapping="WrapWithOverflow" Height="291" Width="430" IsReadOnly="True"/>
+            <TextBox x:Name="TxtBoxInfo" Text="" TextWrapping="Wrap" Height="291" Width="430" IsReadOnly="True" TextChanged="TxtInfo_TextChanged"/>
         </ScrollViewer>
     </Grid>
 </Window>

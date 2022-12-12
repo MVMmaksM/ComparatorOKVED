@@ -45,9 +45,9 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblCompare.Text += $"Загрузка в текущий период из файла: \n{openFileDialog.FileName}";
+                    TxtBoxInfo.Text += $"\n\nЗагрузка в текущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataCurPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblCompare.Text += $"\n\nЗагружено в текущий период: {_dataCurPerPBD?.Count() ?? 0} записей";
+                    TxtBoxInfo.Text += $"\n\nЗагружено в текущий период: {_dataCurPerPBD?.Count() ?? 0} записей";
                 }
             }
 
@@ -69,9 +69,9 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    LblCompare.Text += $"\n\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
+                    TxtBoxInfo.Text += $"\n\nЗагрузка в предыдущий период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataPrevPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    LblCompare.Text += $"\n\nЗагружено в предыдущий период: {_dataPrevPerPBD?.Count() ?? 0} записей\n";
+                    TxtBoxInfo.Text += $"\n\nЗагружено в предыдущий период: {_dataPrevPerPBD?.Count() ?? 0} записей";
                 }
             }
 
@@ -92,11 +92,11 @@ namespace ComparatorOKVED
 
                 try
                 {
-                    LblCompare.Text += "\n\nВыполненяется сравнение...";
+                    TxtBoxInfo.Text += "\n\nВыполненяется сравнение...";
 
                     await Task.Run(() => fileResult = FileServices.CreateExcelResultCompare(comparer.CompareChistHozOkved(_dataCurPerPBD), comparer.CompareChistOkved(_dataCurPerPBD, _dataPrevPerPBD)));
 
-                    LblCompare.Text += "\n\nВыполнено!";
+                    TxtBoxInfo.Text += "\n\nВыполнено!";
 
                     System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
                     saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -190,6 +190,11 @@ namespace ComparatorOKVED
                 MessageBox.Show("При открытии файла Readme произошла ошибка :" + ex.Message, "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
                 logger.Error(ex.Message + ex.StackTrace);
             }
+        }
+ 
+        private void TxtInfo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TxtBoxInfo.ScrollToEnd();
         }
     }
 }
