@@ -107,7 +107,7 @@ namespace ComparatorOKVED
                     {
                         FileServices.SaveFile(fileResult, saveFileDialog.FileName);
 
-                        MessageBox.Show($"Файл сохранен на {saveFileDialog.FileName}", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show($"Файл сохранен на: {saveFileDialog.FileName}", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 catch (Exception ex)
