@@ -227,7 +227,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Comparator\CompareOKVED.cs" />
-    <Compile Include="Model\ModelResult.cs" />
+    <Compile Include="Model\NameColumnInPBD.cs" />
     <Compile Include="Model\ModelResultChist.cs" />
     <Compile Include="Model\ModelResultHozChist.cs" />
     <Compile Include="Services\AssemblyInfo.cs" />

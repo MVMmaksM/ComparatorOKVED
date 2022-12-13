@@ -13,6 +13,7 @@ namespace Comparator.OKVED.Services
 {
     class FileServices
     {
+        
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private static double? ValidationNullDataColumn(object value)
         {
@@ -34,9 +35,21 @@ namespace Comparator.OKVED.Services
                 {
                     return i;
                 }
+            }            
+            return default(int);
+        }
+        private static bool IsValidNumColumn(Dictionary<string, int> nameColumnInPBD)
+        {
+            foreach (var col in nameColumnInPBD)
+            {
+                if (col.Value==0)
+                {
+                    MessageBox.Show($"В загружаемом файле не найдено поле: {col.Key}", "Ошибка", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    return false;
+                }
             }
 
-            return default(int);
+            return true;
         }
         private static void SetPropertyColumnExcel(ExcelWorksheet excelWorksheet, int countRows, int countColumn)
         {
@@ -63,28 +76,32 @@ namespace Comparator.OKVED.Services
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                 List<ModelPBD> listDataPBD = new List<ModelPBD>();
 
-                int numColPeriod = GetNumberColumn(worksheet, "До 15 человек");
-                int numColOKATO = GetNumberColumn(worksheet, "ОКАТО");
-                int numColOKPO = GetNumberColumn(worksheet, "ОКПО");
-                int numColName = GetNumberColumn(worksheet, "Наименование предприятия");          
-                int numColOKVEDHoz = GetNumberColumn(worksheet, "ОКВЭД Хозяйственный");
-                int numColOKVEDChist = GetNumberColumn(worksheet, "ОКВЭД Чистый");
-                int numColOtchMes = GetNumberColumn(worksheet, "За отчётный месяц");               
-                int numColOtchKvart = GetNumberColumn(worksheet, "За отчетный квартал");
-               
+                NameColumnInPBD.numColumns["До 15 человек"] = GetNumberColumn(worksheet, "До 15 человек");
+                NameColumnInPBD.numColumns["ОКАТО"] = GetNumberColumn(worksheet, "ОКАТО");
+                NameColumnInPBD.numColumns["ОКПО"] = GetNumberColumn(worksheet, "ОКПО");
+                NameColumnInPBD.numColumns["Наименование предприятия"] = GetNumberColumn(worksheet, "Наименование предприятия");
+                NameColumnInPBD.numColumns["ОКВЭД Хозяйственный"] = GetNumberColumn(worksheet, "ОКВЭД Хозяйственный");
+                NameColumnInPBD.numColumns["ОКВЭД Чистый"] = GetNumberColumn(worksheet, "ОКВЭД Чистый");
+                NameColumnInPBD.numColumns["За отчётный месяц"] = GetNumberColumn(worksheet, "За отчётный месяц");
+                NameColumnInPBD.numColumns["За отчетный квартал"] = GetNumberColumn(worksheet, "За отчетный квартал");
+
+                if (!IsValidNumColumn(NameColumnInPBD.numColumns))
+                {
+                    return null;
+                }
 
                 for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
                     ModelPBD newRow = new ModelPBD();
-                    newRow.Period = worksheet.Cells[i, numColPeriod].Value.ToString();
-                    newRow.OKATO = worksheet.Cells[i, numColOKATO].Value.ToString();
-                    newRow.OKPO = worksheet.Cells[i, numColOKPO].Value.ToString();
-                    newRow.Name = worksheet.Cells[i, numColName].Value.ToString();                
-                    newRow.OKVEDHoz = worksheet.Cells[i, numColOKVEDHoz].Value.ToString();
-                    newRow.OKVEDChist = worksheet.Cells[i, numColOKVEDChist].Value.ToString();
+                    newRow.Period = worksheet.Cells[i, NameColumnInPBD.numColumns["До 15 человек"]].Value.ToString();
+                    newRow.OKATO = worksheet.Cells[i, NameColumnInPBD.numColumns["ОКАТО"]].Value.ToString();
+                    newRow.OKPO = worksheet.Cells[i, NameColumnInPBD.numColumns["ОКПО"]].Value.ToString();
+                    newRow.Name = worksheet.Cells[i, NameColumnInPBD.numColumns["Наименование предприятия"]].Value.ToString();
+                    newRow.OKVEDHoz = worksheet.Cells[i, NameColumnInPBD.numColumns["ОКВЭД Хозяйственный"]].Value.ToString();
+                    newRow.OKVEDChist = worksheet.Cells[i, NameColumnInPBD.numColumns["ОКВЭД Чистый"]].Value.ToString();
 
-                    newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, numColOtchMes].Value);                   
-                    newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, numColOtchKvart].Value);                  
+                    newRow.OtchMes = ValidationNullDataColumn(worksheet.Cells[i, NameColumnInPBD.numColumns["За отчётный месяц"]].Value);
+                    newRow.OtchKvart = ValidationNullDataColumn(worksheet.Cells[i, NameColumnInPBD.numColumns["За отчетный квартал"]].Value);
 
                     listDataPBD.Add(newRow);
                 }
