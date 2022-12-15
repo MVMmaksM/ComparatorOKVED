@@ -66,8 +66,8 @@ namespace Comparator.OKVED.Comparator
 
             var leftJoinPrevPer = from prev in groupOkpoOkvedPrevPer  //left join для предыдущего периода
                                   join cur in groupOkpoOkvedCurPer
-                                 on new { OKPO = prev.OKPO, OKVED = prev.OKVEDChist } equals new { OKPO = cur.OKPO, OKVED = cur.OKVEDChist }
-                                 into data_A
+                                  on new { OKPO = prev.OKPO, OKVED = prev.OKVEDChist } equals new { OKPO = cur.OKPO, OKVED = cur.OKVEDChist }
+                                  into data_A
                                   from data_B in data_A.DefaultIfEmpty(new ModelPBD())
                                   select new ModelResultChist()
                                   {
@@ -80,8 +80,8 @@ namespace Comparator.OKVED.Comparator
                                   };
 
             var notInCurPer = leftJoinPrevPer.Where(a => string.IsNullOrEmpty(a.OKVEDCurPer));
-
-            var unionCurPrevPer = notInCurPer.Union(notInPrevPer);
+                      
+            var unionCurPrevPer = notInPrevPer.Union(notInCurPer);
 
             return unionCurPrevPer;
         }
