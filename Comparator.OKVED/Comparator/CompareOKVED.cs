@@ -80,10 +80,52 @@ namespace Comparator.OKVED.Comparator
                                   };
 
             var notInCurPer = leftJoinPrevPer.Where(a => string.IsNullOrEmpty(a.OKVEDCurPer));
-                      
+
             var unionCurPrevPer = notInPrevPer.Union(notInCurPer);
 
-            return unionCurPrevPer;
+            var ax = from u in unionCurPrevPer //left join для исключения новых организаций
+                                  join p in delAGOkvedPrevPer
+                                  on new { OKPO = u.OKPO} equals new { OKPO = p.OKPO}
+                                  into data_A
+                                  from data_B in data_A.DefaultIfEmpty(new ModelPBD())
+                                  select new ModelResultChist()
+                                  {
+                                      Period = u.Period,
+                                      OKPO = u.OKPO,
+                                      Name = u.Name,
+                                      OKATO = u.OKATO,
+                                      OKVEDCurPer = data_B.OKVEDChist,
+                                      OKVEDPrevPer = u.OKVEDPrevPer
+                                  };
+
+            var bxr = ax.Where(a => string.IsNullOrEmpty(a.OKVEDCurPer));
+
+            var dx = unionCurPrevPer.ToList();
+
+            foreach (var item in bxr)
+            {
+                dx.RemoveAll(a=>a.OKPO==item.OKPO);
+            }
+
+            return dx;
+
+            //var ax = unionCurPrevPer.Select(a => a.OKPO).Distinct();
+            //var bx = groupOkpoOkvedPrevPer.Select(b => b.OKPO).Distinct();
+
+            //var cx = from a in ax
+            //         where !bx.Contains(a)
+            //         select a;
+
+            //var dx = unionCurPrevPer.ToList();
+
+            //foreach (var item in cx)
+            //{
+
+            //    dx.RemoveAll(a => a.OKPO == item);
+            //}
+
+            //return dx;
+
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
