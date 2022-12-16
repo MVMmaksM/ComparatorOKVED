@@ -45,9 +45,9 @@ namespace ComparatorOKVED
             {
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    TxtBoxInfo.Text += $"\n\nЗагрузка в текущий период из файла: \n{openFileDialog.FileName}";
+                    TxtBoxInfo.Text += $"\n\nЗагрузка в отчетный период из файла: \n{openFileDialog.FileName}";
                     await Task.Run(() => _dataCurPerPBD = FileServices.LoadExcelPBD(openFileDialog.FileName));
-                    TxtBoxInfo.Text += $"\n\nЗагружено в текущий период: {_dataCurPerPBD?.Count() ?? 0} записей";
+                    TxtBoxInfo.Text += $"\n\nЗагружено в отчетный период: {_dataCurPerPBD?.Count() ?? 0} записей";
                 }
             }
 

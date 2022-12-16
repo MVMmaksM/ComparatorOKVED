@@ -23,7 +23,7 @@
             </MenuItem>
             <MenuItem Header="О программе" Click="MenuReadme_Click"/>
         </Menu>
-        <Button Content="Загрузить текущий период" HorizontalAlignment="Left" Margin="21,40,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelCurPer_Click"/>
+        <Button Content="Загрузить отчетный период" HorizontalAlignment="Left" Margin="21,40,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelCurPer_Click"/>
         <Button Content="Загрузить предыдущий период" HorizontalAlignment="Left" Margin="21,75,0,0" VerticalAlignment="Top" Width="190" Height="25" Click="BtnLoadExcelPrevPer_Click"/>
         <Button Content="Сравнить" HorizontalAlignment="Left" Margin="21,131,0,0" VerticalAlignment="Top" Width="190" Click="BtnComapare_Click" Height="25"/>
         <StatusBar Height="23" VerticalAlignment="Bottom"/>
