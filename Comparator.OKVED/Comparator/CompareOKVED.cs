@@ -107,25 +107,7 @@ namespace Comparator.OKVED.Comparator
                 dx.RemoveAll(a=>a.OKPO==item.OKPO);
             }
 
-            return dx;
-
-            //var ax = unionCurPrevPer.Select(a => a.OKPO).Distinct();
-            //var bx = groupOkpoOkvedPrevPer.Select(b => b.OKPO).Distinct();
-
-            //var cx = from a in ax
-            //         where !bx.Contains(a)
-            //         select a;
-
-            //var dx = unionCurPrevPer.ToList();
-
-            //foreach (var item in cx)
-            //{
-
-            //    dx.RemoveAll(a => a.OKPO == item);
-            //}
-
-            //return dx;
-
+            return dx;          
         }
         private IEnumerable<ModelPBD> GetRowsOkvedHozEqualsChist(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDHoz == a.OKVEDChist);
         private IEnumerable<ModelPBD> DelOkvedAG(IEnumerable<ModelPBD> collectionPBD) => collectionPBD.Where(a => a.OKVEDChist != "101.АГ");
